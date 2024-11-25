@@ -60,3 +60,4 @@ Enjoy!
 - [GRP Plugin for Windows Commander](https://github.com/creaktive/grp.wcx)
 - [Grpar tool to extract GRP files](https://github.com/martymac/grpar)
 - [grpdecompiler](https://github.com/PopovEvgeniy/grpdecompiler)
+- [duke4.net forums](https://forums.duke4.net/)
