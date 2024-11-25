@@ -7,9 +7,17 @@ on:
     branches: [ "master" ]
 
 jobs:
-  build:
+  build-macos:
 
     runs-on: macos-12
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: make
+      run: make
+
+  build-windows:
+    runs-on: windows-latest
 
     steps:
     - uses: actions/checkout@v4
