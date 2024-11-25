@@ -8,6 +8,8 @@ Olivier, licensed under the GPL.
 It goes well with the great
 [Blender Add-on for importing BUILD engine maps][iibm].
 
+[![](https://github.com/jensnt/io_import_build_map/blob/main/images/e1l1.png)][iibm]
+
 ## Usage
 
 ```sh
