@@ -23,7 +23,16 @@ make
 [original]: https://blood.sourceforge.net/rebuild.php
 [iibm]: https://github.com/jensnt/io_import_build_map
 
-Original readme_x.txt:
+## Quirks
+Maps are not extracted, because `dukeconv` that is included with the original
+xtract and is used by xtract to extract maps is a 32-bit windows
+executable.  I tried running it with WINE 9.0, but it didn't work (failed to
+start).
+
+If you need `dukeconv` you can find it in the original xtract archive by
+downloading it from the [original page][original].
+
+## Original readme_x.txt
 ```
 --- xtract readme---
 

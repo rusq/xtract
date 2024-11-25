@@ -22,8 +22,7 @@
 //#include <malloc.h> //
 #include <stdlib.h> // EXIT_SUCCESS, EXIT_FAILURE, _MAX_PATH, malloc, free
 #ifdef _WIN32
-#include <process.h> // system
-#include <direct.h> // _mkdir, _getcwd, _chdir
+#include "compat_win32.h"
 #endif
 #if defined(__APPLE__) || defined(__FreeBSD__) /* I bet it would work on FreeBSD */
 #include "compat_darwin.h"
@@ -39,6 +38,13 @@
 
 // Size of the color palette (256 colors, 3 components for each color)
 #define PALETTE_SIZE (256 * 3)
+
+#define DIR_TILES "tiles"
+#define PATH_TILES PATH_SEPARATOR DIR_TILES
+
+#define DIR_MAPS "maps"
+#define PATH_MAPS PATH_SEPARATOR DIR_MAPS
+
 
 /* ------------- */
 /* --- Types --- */
@@ -280,15 +286,17 @@ int main (int ArgC, char* ArgV [])
           return EXIT_FAILURE;
       }
 
+#ifdef _WIN32
       // If it's a map file chunk
       if (strstr (FilesProperties[Ind].Name, ".MAP") !=NULL)
       {
-      sprintf(temp, "%s%s%s%s%s%s", "dukeconv ", FilesProperties[Ind].Name, " ", buffer, "\\maps",
+      sprintf(temp, "%s%s%s%s%s%s", "dukeconv ", FilesProperties[Ind].Name, " ", buffer, PATH_MAPS,
                FilesProperties[Ind].Name);
       printf(temp,"\n");
       system(temp);
       printf("\n");
       }
+#endif // _WIN32
 
       // If it's an art file chunk
       if (strstr (FilesProperties[Ind].Name, ".ART") !=NULL)
@@ -305,13 +313,13 @@ int main (int ArgC, char* ArgV [])
    {
        if (strstr (FilesProperties[Ind].Name, ".MAP") !=NULL)
        {
-           sprintf(temp, "%s%s", "del ", FilesProperties[Ind].Name);
+           sprintf(temp, "%s%s", OS_DEL_CMD, FilesProperties[Ind].Name);
            system(temp);
        }
 
        if (strstr (FilesProperties[Ind].Name, ".ART") !=NULL)
        {
-           sprintf(temp, "%s%s", "del ", FilesProperties[Ind].Name);
+           sprintf(temp, "%s%s", OS_DEL_CMD, FilesProperties[Ind].Name);
            system(temp);
        }
 
@@ -625,7 +633,7 @@ static bool SpawnTGA (unsigned int TileInd, const char* PictureName)
    if( _getcwd( buffer, _MAX_PATH ) == NULL )
       perror( "_getcwd error" );
    else
-      sprintf(temp, "%s%s", buffer, "\\tiles");
+      sprintf(temp, "%s%s", buffer, PATH_TILES);
 
    // If the picture is empty, we quit
    if (PictureSize == 0)
