@@ -17,12 +17,11 @@
 
 #include <stdio.h> // fseek, SEEK_SET, fflush, stdout, fclose, fread, printf, FILE, perror
 #include <string.h> // strncmp, strstr
-#include <process.h> // system
 //#include <dir.h> // MAXPATH, MAXDRIVE, MAXDIR, MAXFILE, MAXEXT
 //#include <conio.h> // kbhit, getch
 //#include <malloc.h> //
 #include <stdlib.h> // EXIT_SUCCESS, EXIT_FAILURE, _MAX_PATH, malloc, free
-#include <direct.h> // _chdir, _mkdir, _getcwd
+#include "compat_darwin.h"
 /* ----------------- */
 /* --- Constants --- */
 /* ----------------- */
