@@ -8,3 +8,7 @@ debug: xtract
 
 clean:
 	-rm -f xtract
+
+format: xtract.c
+	clang-format -i xtract.c
+.PHONY: format
