@@ -21,6 +21,7 @@
 // #include <conio.h> // kbhit, getch
 // #include <malloc.h> //
 #include <stdlib.h> // EXIT_SUCCESS, EXIT_FAILURE, _MAX_PATH, malloc, free
+#include <unistd.h>
 #ifdef _WIN32
 #include "compat_win32.h"
 #endif
@@ -151,7 +152,7 @@ int main(int ArgC, char *ArgV[]) {
 	unsigned int DataSize;
 	unsigned int CrtOffset;
 	const char *FileName;
-	char temp[_MAX_PATH], buffer[_MAX_PATH];
+	char temp[_MAX_PATH];
 
 	// Header
 	printf("\n"
@@ -213,9 +214,9 @@ int main(int ArgC, char *ArgV[]) {
 
 	MarkFiles("palette.dat");
 	MarkFiles("*.art");
-#ifndef _WIN32
-	MarkFiles("*.map"); /* extract map files on non-win32 targets */
-#endif					/* _WIN32 */
+#ifndef DUKECONV
+	MarkFiles("*.map"); /* built-in map extractor */
+#endif					/* DUKECONV */
 
 	// If there's no file to extract, we quit
 	if (NbFilesToExtract == 0) {
@@ -245,12 +246,13 @@ int main(int ArgC, char *ArgV[]) {
 
 		char filepath[_MAX_PATH];
 		strncpy(filepath, FilesProperties[Ind].Name, _MAX_PATH);
-#ifndef _WIN32
+#ifndef DUKECONV
 		/* override the path on systems where we manually handling maps */
 		if (strstr(FilesProperties[Ind].Name, ".MAP") != NULL) {
-			sprintf(filepath, "%s%s%s%s", cwd, PATH_MAPS, PATH_SEPARATOR, FilesProperties[Ind].Name);
+			sprintf(filepath, "%s%s%s%s", cwd, PATH_MAPS, PATH_SEPARATOR,
+					FilesProperties[Ind].Name);
 		}
-#endif /* _WIN32 */
+#endif /* DUKECONV */
 
 		// Create the file
 		CrtFile = fopen(filepath, "wb");
@@ -282,22 +284,16 @@ int main(int ArgC, char *ArgV[]) {
 		printf("done\n");
 		fclose(CrtFile);
 
-		/* Get the current working directory: */
-		if (_getcwd(buffer, _MAX_PATH) == NULL) {
-			perror("_getcwd error");
-			return EXIT_FAILURE;
-		}
-
-#ifdef _WIN32
+#ifdef DUKECONV
 		// If it's a map file chunk
 		if (strstr(FilesProperties[Ind].Name, ".MAP") != NULL) {
-			sprintf(temp, "%s%s%s%s%s%s", "dukeconv ", FilesProperties[Ind].Name, " ", buffer,
+			sprintf(temp, "%s%s%s%s%s%s", "dukeconv ", FilesProperties[Ind].Name, " ", cwd,
 					PATH_MAPS, FilesProperties[Ind].Name);
 			printf(temp, "\n");
 			system(temp);
 			printf("\n");
 		}
-#endif // _WIN32
+#endif /* DUKECONV */
 
 		// If it's an art file chunk
 		if (strstr(FilesProperties[Ind].Name, ".ART") != NULL) {
@@ -309,12 +305,12 @@ int main(int ArgC, char *ArgV[]) {
 
 	// to clean up any dummy old school files
 	for (Ind = 0; Ind < NbFiles; Ind++) {
-#ifdef _WIN32
+#ifdef DUKECONV
 		if (strstr(FilesProperties[Ind].Name, ".MAP") != NULL) {
 			sprintf(temp, "%s%s", OS_DEL_CMD, FilesProperties[Ind].Name);
 			system(temp);
 		}
-#endif /* _WIN32 */
+#endif /* DUKECONV */
 
 		if (strstr(FilesProperties[Ind].Name, ".ART") != NULL) {
 			sprintf(temp, "%s%s", OS_DEL_CMD, FilesProperties[Ind].Name);

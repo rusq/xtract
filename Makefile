@@ -2,6 +2,10 @@ SHELL=/bin/sh
 
 TILES_DIR=tiles
 
+ifeq ($(DUKECONV),1)
+CFLAGS += -DDUKECONV
+endif
+
 xtract: xtract.c
 
 debug: LDFLAGS += -g -O0
