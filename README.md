@@ -32,8 +32,8 @@ to maps/ instead of the current directory).
 The original xtract used `dukeconv`, this code has been isolated under DUKECONV
 define.  If you want to use `dukeconv`, build it with `make DUKECONV=1`.
 
-You can the `dukeconv.exe` in the original xtract archive by downloading it
-from the [original page][original].
+You can get the `dukeconv.exe` from the original xtract archive by downloading
+it from the [original page][original].
 
 ## Original readme_x.txt
 ```
