@@ -698,4 +698,3 @@ static void SetLittleEndianUInt16 (unsigned short Integer, unsigned char* Buffer
    Buffer[0] = (unsigned char)(Integer & 255);
    Buffer[1] = (unsigned char)(Integer >> 8);
 }
-
