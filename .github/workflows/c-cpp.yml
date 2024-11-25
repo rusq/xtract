@@ -18,10 +18,8 @@ jobs:
 
   build-windows:
     runs-on: windows-latest
-    defaults:
-      run:
-        shell: bash
+
     steps:
     - uses: actions/checkout@v4
     - name: make
-      run: make
+      run: make CC=gcc
