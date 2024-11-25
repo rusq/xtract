@@ -212,20 +212,29 @@ int main(int ArgC, char *ArgV[]) {
 	}
 
 	MarkFiles("palette.dat");
-	//  MarkFiles ("*.map");
 	MarkFiles("*.art");
+#ifndef _WIN32
+	MarkFiles("*.map"); /* extract map files on non-win32 targets */
+#endif					/* _WIN32 */
 
 	// If there's no file to extract, we quit
 	if (NbFilesToExtract == 0) {
 		fclose(GroupFile);
-		printf("No map files found in group file\n");
+		printf("No files found in group file\n");
 		return 0;
+	}
+
+	char cwd[_MAX_PATH];
+	if (_getcwd(cwd, _MAX_PATH) == NULL) {
+		fclose(GroupFile);
+		perror("_getcwd error");
+		return EXIT_FAILURE;
 	}
 
 	// Extract the chosen files
 	for (Ind = 0; Ind < NbFiles; Ind++) {
 		// If the file doesn't have to be extracted, skip it
-		if (FilesProperties[Ind].MarkedForExtraction == 0)
+		if (!FilesProperties[Ind].MarkedForExtraction)
 			continue;
 
 		// Seek the file in the group file
@@ -234,16 +243,25 @@ int main(int ArgC, char *ArgV[]) {
 			continue;
 		}
 
+		char filepath[_MAX_PATH];
+		strncpy(filepath, FilesProperties[Ind].Name, _MAX_PATH);
+#ifndef _WIN32
+		/* override the path on systems where we manually handling maps */
+		if (strstr(FilesProperties[Ind].Name, ".MAP") != NULL) {
+			sprintf(filepath, "%s%s%s%s", cwd, PATH_MAPS, PATH_SEPARATOR, FilesProperties[Ind].Name);
+		}
+#endif /* _WIN32 */
+
 		// Create the file
-		CrtFile = fopen(FilesProperties[Ind].Name, "wb");
+		CrtFile = fopen(filepath, "wb");
 		if (CrtFile == NULL) {
-			printf("Error: Could not create %s\n", FilesProperties[Ind].Name);
+			printf("Error: Could not create %s\n", filepath);
 			continue;
 		}
 
 		// Fill it
 		printf("\nExtracting %s... ", FilesProperties[Ind].Name);
-		fflush(stdout);
+		// fflush(stdout);
 		for (Ind2 = 0; Ind2 < FilesProperties[Ind].Length; Ind2 += sizeof(Buffer)) {
 			// Read the data from the group file
 			DataSize = min(FilesProperties[Ind].Length - Ind2, sizeof(Buffer));
@@ -291,10 +309,12 @@ int main(int ArgC, char *ArgV[]) {
 
 	// to clean up any dummy old school files
 	for (Ind = 0; Ind < NbFiles; Ind++) {
+#ifdef _WIN32
 		if (strstr(FilesProperties[Ind].Name, ".MAP") != NULL) {
 			sprintf(temp, "%s%s", OS_DEL_CMD, FilesProperties[Ind].Name);
 			system(temp);
 		}
+#endif /* _WIN32 */
 
 		if (strstr(FilesProperties[Ind].Name, ".ART") != NULL) {
 			sprintf(temp, "%s%s", OS_DEL_CMD, FilesProperties[Ind].Name);
