@@ -3,7 +3,7 @@
 This is a port of the Xtract program to macOS.
 
 The [original Xtract][original] Copyright (C) 2000  Timothy Hale and Mathieu
-Olivier, licensed under the GPL.
+Olivier, licensed under the GPL, hosted on ReBUILD Project.
 
 It goes well with the great
 [Blender Add-on for importing BUILD engine maps][iibm].
@@ -53,3 +53,10 @@ After this, you should be able to make your own maps using the extracted maps as
 
 Enjoy!
 ```
+
+## Other useful Duke3d related links
+- [Build Engine Source Code Page](http://www.advsys.net/ken/buildsrc/default.htm)
+- http://dukertcm.com/knowledge-base/downloads-rtcm/duke3d-tools-editart/
+- [GRP Plugin for Windows Commander](https://github.com/creaktive/grp.wcx)
+- [Grpar tool to extract GRP files](https://github.com/martymac/grpar)
+- [grpdecompiler](https://github.com/PopovEvgeniy/grpdecompiler)
