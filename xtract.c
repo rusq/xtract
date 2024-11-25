@@ -21,7 +21,13 @@
 //#include <conio.h> // kbhit, getch
 //#include <malloc.h> //
 #include <stdlib.h> // EXIT_SUCCESS, EXIT_FAILURE, _MAX_PATH, malloc, free
+#ifdef _WIN32
+#include <process.h> // system
+#include <direct.h> // _mkdir, _getcwd, _chdir
+#endif
+#if defined(__APPLE__) || defined(__FreeBSD__) /* I bet it would work on FreeBSD */
 #include "compat_darwin.h"
+#endif
 /* ----------------- */
 /* --- Constants --- */
 /* ----------------- */
