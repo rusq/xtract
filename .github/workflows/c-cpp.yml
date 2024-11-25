@@ -16,7 +16,7 @@ jobs:
     - name: make
       run: make
     - name: make dukeconv
-      run: make DUKECONV=1
+      run: make clean xtract DUKECONV=1
 
   build-windows:
     runs-on: windows-latest
@@ -26,4 +26,4 @@ jobs:
     - name: make
       run: make CC=gcc
     - name: make dukeconv
-      run: make DUKECONV=1 CC=gcc
+      run: make clean xtract DUKECONV=1 CC=gcc
