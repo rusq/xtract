@@ -1,1 +1,7 @@
 xtract
+*.grp
+*.log
+*.dSYM
+maps
+tiles
+*.DAT

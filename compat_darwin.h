@@ -1,11 +1,17 @@
 #pragma once
+#if defined (__APPLE__) || defined (__FreeBSD__)
+
 #include <sys/stat.h>
 #include <unistd.h>
 
 #define _MAX_PATH 1023
 
-int _mkdir(const char *path) { return mkdir(path, 0777); }
+#define OS_DEL_CMD "rm "
 
-char *_getcwd(char *buffer, int maxlen) { return getcwd(buffer, maxlen); }
+#define PATH_SEPARATOR "/"
 
-int _chdir(const char *path) { return chdir(path); }
+#define _mkdir(path) mkdir(path, 0777)
+#define _getcwd(buffer, maxlen) getcwd(buffer, maxlen)
+#define _chdir(path) chdir(path)
+
+#endif /* __APPLE__ || __FreeBSD__ */
